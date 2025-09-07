@@ -1,115 +1,163 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
+import {
+  ActionIcon,
+  AppShell,
+  Container,
+  Group,
+  Paper,
+  ScrollArea,
+  Stack,
+  Text,
+  ThemeIcon,
+  Title,
+} from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
+import { useState } from "react";
+import ReactPlayer from "react-player";
+import { AddVideo, Eye, EyeSlash, Trash, Youtube } from "@/components";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+interface Video {
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+}
 
 export default function Home() {
+  const [value, setValue] = useLocalStorage<Video[]>({
+    key: "youtube-learning-videos",
+    defaultValue: [],
+  });
+  const [active, setActive] = useState<Video>({
+    id: "1",
+    title: "New MIT study says most AI projects are doomed",
+    description: "Fireship",
+    url: "https://www.youtube.com/watch?v=ly6YKz9UfQ4",
+  });
+
+  function deleteVideo(id: string) {
+    setValue(value.filter((item) => item.id !== id));
+  }
+
   return (
-    <div
-      className={`${geistSans.className} ${geistMono.className} font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20`}
-    >
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              pages/index.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+    <AppShell header={{ height: 72 }}>
+      <AppShell.Header>
+        <Container h="100%" size={1440} px={{ base: 20, xl: "auto" }}>
+          <Group h="100%" justify="space-between">
+            <Title fw={700} fz={24}>
+              YouLearn
+            </Title>
+
+            <AddVideo />
+          </Group>
+        </Container>
+      </AppShell.Header>
+
+      <AppShell.Main>
+        <Container
+          size={1440}
+          className="h-[calc(100vh_-_72px)]"
+          px={{ base: 20, xl: "auto" }}
+          py={20}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <Paper h="100%">
+            <Group align="flex-start" h="100%">
+              <Stack className="flex-1">
+                <ReactPlayer
+                  src={active.url}
+                  controls
+                  title="Learning Video"
+                  pip
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    aspectRatio: "16/9",
+                  }}
+                />
+
+                <Paper>
+                  <Group align="flex-start" className="flex-1">
+                    <ThemeIcon
+                      h={42}
+                      w={56}
+                      variant="filled"
+                      color="#ff0033"
+                      radius={8}
+                    >
+                      <Youtube />
+                    </ThemeIcon>
+                    <Stack gap={3} className="flex-1">
+                      <Text fw={500} fz={18} lineClamp={2}>
+                        {active.title}
+                      </Text>
+                      <Text c="dimmed">{active.description}</Text>
+                    </Stack>
+                  </Group>
+                </Paper>
+              </Stack>
+
+              <ScrollArea h="100%" type="auto" hidden={!value.length}>
+                <Stack w={{ base: "100%", sm: 400 }} pr={20}>
+                  {value.map((video) => {
+                    return (
+                      <Paper
+                        key={video.id}
+                        // shadow="lg"
+                        p={20}
+                        withBorder
+                        radius={12}
+                        bg="#f8f9fa"
+                      >
+                        <Group align="flex-start" justify="space-between">
+                          <Group align="flex-start" className="flex-1">
+                            <ThemeIcon
+                              p={0}
+                              h={80}
+                              w={100}
+                              variant="filled"
+                              color="#ff0033"
+                              // radius={12}
+                            >
+                              <Youtube />
+                            </ThemeIcon>
+                            <Stack gap={3} className="flex-1">
+                              <Text fw={500} fz={18} lineClamp={2}>
+                                {video.title}
+                              </Text>
+                              <Text c="dimmed" lineClamp={2}>
+                                {video.description}
+                              </Text>
+                            </Stack>
+                          </Group>
+
+                          <Group gap={3}>
+                            <ActionIcon
+                              variant="transparent"
+                              size={18}
+                              color="currentColor"
+                              onClick={() => setActive(video)}
+                            >
+                              {active.id === video.id ? <EyeSlash /> : <Eye />}
+                            </ActionIcon>
+
+                            <ActionIcon
+                              variant="transparent"
+                              size={18}
+                              color="red"
+                              onClick={() => deleteVideo(video.id)}
+                            >
+                              <Trash />
+                            </ActionIcon>
+                          </Group>
+                        </Group>
+                      </Paper>
+                    );
+                  })}
+                </Stack>
+              </ScrollArea>
+            </Group>
+          </Paper>
+        </Container>
+      </AppShell.Main>
+    </AppShell>
   );
 }
