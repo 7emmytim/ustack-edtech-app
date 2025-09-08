@@ -13,14 +13,8 @@ import {
 import { useLocalStorage } from "@mantine/hooks";
 import { useState } from "react";
 import ReactPlayer from "react-player";
-import { AddVideo, Eye, EyeSlash, Trash, Youtube } from "@/components";
-
-interface Video {
-  id: string;
-  title: string;
-  description: string;
-  url: string;
-}
+import { AddVideo, Eye, EyeSlash, Trash, Video, Youtube } from "@/components";
+import Image from "next/image";
 
 export default function Home() {
   const [value, setValue] = useLocalStorage<Video[]>({
@@ -32,6 +26,7 @@ export default function Home() {
     title: "New MIT study says most AI projects are doomed",
     description: "Fireship",
     url: "https://www.youtube.com/watch?v=ly6YKz9UfQ4",
+    thumbnails: null,
   });
 
   function deleteVideo(id: string) {
@@ -95,13 +90,17 @@ export default function Home() {
                 </Paper>
               </Stack>
 
-              <ScrollArea h="100%" type="auto" hidden={!value.length}>
-                <Stack w={{ base: "100%", sm: 400 }} pr={20}>
+              <ScrollArea
+                h="100%"
+                type="auto"
+                hidden={!value.length}
+                offsetScrollbars
+              >
+                <Stack w={{ base: "100%", sm: 400 }}>
                   {value.map((video) => {
                     return (
                       <Paper
                         key={video.id}
-                        // shadow="lg"
                         p={20}
                         withBorder
                         radius={12}
@@ -109,21 +108,32 @@ export default function Home() {
                       >
                         <Group align="flex-start" justify="space-between">
                           <Group align="flex-start" className="flex-1">
-                            <ThemeIcon
-                              p={0}
-                              h={80}
-                              w={100}
-                              variant="filled"
-                              color="#ff0033"
-                              // radius={12}
-                            >
-                              <Youtube />
-                            </ThemeIcon>
+                            {video.thumbnails?.default?.url ? (
+                              <Image
+                                height={90}
+                                width={120}
+                                src={video.thumbnails.default.url}
+                                alt={video.title}
+                                className="rounded-xl"
+                              />
+                            ) : (
+                              <ThemeIcon
+                                p={0}
+                                h={90}
+                                w={120}
+                                variant="filled"
+                                color="#ff0033"
+                                radius={12}
+                              >
+                                <Youtube />
+                              </ThemeIcon>
+                            )}
+
                             <Stack gap={3} className="flex-1">
-                              <Text fw={500} fz={18} lineClamp={2}>
+                              <Text fw={500} fz={16} lineClamp={2}>
                                 {video.title}
                               </Text>
-                              <Text c="dimmed" lineClamp={2}>
+                              <Text c="dimmed" lineClamp={2} fz={14}>
                                 {video.description}
                               </Text>
                             </Stack>
