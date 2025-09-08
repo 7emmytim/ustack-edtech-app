@@ -320,11 +320,6 @@
   resolved "https://registry.yarnpkg.com/@mantine/hooks/-/hooks-8.2.8.tgz#324ba966ccea6e33e8dfca5926df465e1fc5d998"
   integrity sha512-KK1krCcXizWT6JF8gWexv58imQBbviylAJqSqdZ4zUPgrpe81ehMyfxo5Z9EZsnSwMxkB4RLMhCCJhC5g8GvLA==
 
-"@mantine/modals@^8.2.8":
-  version "8.2.8"
-  resolved "https://registry.yarnpkg.com/@mantine/modals/-/modals-8.2.8.tgz#29a2900306112f8b1bf93e8e91390e5e3c1f28f0"
-  integrity sha512-+RzHK4uy/Gsk6RspunD8An9WYF921If8S2pDeveMwxVhUeNMZXeh9FpQWESlqVV+SHSPDDP4QeTkwhJm9DWf2g==
-
 "@mux/mux-data-google-ima@0.2.8":
   version "0.2.8"
   resolved "https://registry.yarnpkg.com/@mux/mux-data-google-ima/-/mux-data-google-ima-0.2.8.tgz#552a78222c1dd34e5173e699f2076f7e5b938fa4"

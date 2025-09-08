@@ -2,7 +2,6 @@ import "@mantine/core/styles.css";
 import "@/styles/globals.css";
 import { createTheme, MantineProvider } from "@mantine/core";
 import type { AppProps } from "next/app";
-import { ModalsProvider } from "@mantine/modals";
 import Head from "next/head";
 
 const theme = createTheme({
@@ -22,9 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/vercel.svg" />
       </Head>
 
-      <ModalsProvider>
-        <Component {...pageProps} />
-      </ModalsProvider>
+      <Component {...pageProps} />
     </MantineProvider>
   );
 }
